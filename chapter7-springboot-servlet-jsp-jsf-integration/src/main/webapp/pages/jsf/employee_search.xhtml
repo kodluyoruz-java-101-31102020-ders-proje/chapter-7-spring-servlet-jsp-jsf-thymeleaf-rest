@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3c.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+
+</h:head>
+<h:body>
+
+	<p:layout style="min-width:400px;min-height:200px;">
+		<p:layoutUnit position="center">
+
+			<h:form id="employeeForm">
+
+				<p:growl id="growl" life="2000" />
+
+				<p:panelGrid id="searchPanel" columns="4">
+
+					<p:outputLabel>Çalışan ID:</p:outputLabel>
+					<p:inputText id="employeeID" binding="#{employeeBeanEmployeeInput}"
+						value="#{employeeBean.employeeID}" />
+
+					<p:commandButton id="searchBtn" value="Ara"
+						update=":employeeForm, :employeeForm:searchPanel, :employeeForm:growl, :employeeForm:employeeDataTable"
+						action="#{employeeBean.search(employeeBeanEmployeeInput.value)}" oncomplete="location.reload();"
+						styleClass="ui-priority-primary" />
+
+
+					<p:link outcome="employee_save" value="Çalışan Kaydet">
+						<f:param name="pageName" value="employee_save" />
+					</p:link>
+
+				</p:panelGrid>
+
+				<p:dataTable id="employeeDataTable" var="employee" value="#{employeeBean.gridEmployees}">
+
+					<p:column headerText="Id">
+						<h:outputText value="#{employee.empNo}" />
+					</p:column>
+
+					<p:column headerText="Name">
+						<h:outputText value="#{employee.name}" />
+					</p:column>
+
+					<p:column headerText="LastName">
+						<h:outputText value="#{employee.lastName}" />
+					</p:column>
+
+					<p:column headerText="Gender">
+						<h:outputText value="#{employee.gender}" />
+					</p:column>
+
+					<p:column headerText="Birth Date">
+						<h:outputText value="#{employee.birthDate}" />
+					</p:column>
+
+					<p:column headerText="Hire Date">
+						<h:outputText value="#{employee.hireDate}" />
+					</p:column>
+
+					<p:column headerText="Details">
+
+						<p:commandLink update=":employeeForm:employeeDetailModal"
+						 	action="#{employeeBean.selectEmployee(employee)}" oncomplete="PF('employeeDialog').show()" title="View Detail">
+							Details
+						</p:commandLink>
+
+					</p:column>
+
+				</p:dataTable>
+
+				<p:dialog id="employeeDetailModal" header="Employee Details" widgetVar="employeeDialog" minHeight="40" showEffect="fade" hideEffect="fade">
+					<p:outputPanel style="text-align:center;">
+						<h:outputText value="#{employeeBean.selectedEmployee.name} #{employeeBean.selectedEmployee.lastName}" />
+					</p:outputPanel>
+				</p:dialog>
+
+			</h:form>
+
+		</p:layoutUnit>
+	</p:layout>
+
+</h:body>
+</html>

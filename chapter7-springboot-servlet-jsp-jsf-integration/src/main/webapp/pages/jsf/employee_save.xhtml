@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3c.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+
+</h:head>
+<h:body>
+
+	<p:layout style="min-width:400px;min-height:200px;">
+		<p:layoutUnit position="center">
+
+			<h:form id="employeeSaveForm">
+
+				<p:growl id="growl" life="2000" />
+
+				<p:panelGrid id="searchPanel" columns="2">
+
+					<p:outputLabel>Çalışan isim:</p:outputLabel>
+					<p:inputText id="employeeName" value="#{employeeSaveBean.newEmployee.name}" />
+					
+					<p:outputLabel>Çalışan soyisim:</p:outputLabel>
+					<p:inputText id="employeeLastName" value="#{employeeSaveBean.newEmployee.lastName}" />
+					
+					<p:outputLabel>Çalışan cinsiyet:</p:outputLabel>
+					<p:selectOneMenu id="employeeGender" value="#{employeeSaveBean.newEmployee.gender}"
+						style="width:125px">
+						<f:selectItem itemLabel="Kadın" itemValue="M" />
+						<f:selectItem itemLabel="Erkek" itemValue="F" />
+					</p:selectOneMenu>
+
+
+					<p:outputLabel for="employeeBirthDate" value="Doğum tarihi: " />
+        			<p:calendar id="employeeBirthDate" value="#{employeeSaveBean.newEmployee.birthDate}" showOn="button" />
+					
+					<p:outputLabel for="employeeHireDate" value="İşe başlangıç tarihi: " />
+        			<p:calendar id="employeeHireDate" value="#{employeeSaveBean.newEmployee.hireDate}" showOn="button" />
+
+					<p:commandButton id="saveBtn" value="Kaydet"
+						update=":employeeSaveForm, :employeeSaveForm:growl"
+						action="#{employeeSaveBean.save(employeeSaveBean.newEmployee)}"
+						styleClass="ui-priority-primary" />
+						
+					<p:link outcome="employee_search" value="Çalışan Arama Sayfası">
+						<f:param name="pageName" value="employee_search" />
+					</p:link>
+
+				</p:panelGrid>
+
+			</h:form>
+
+		</p:layoutUnit>
+	</p:layout>
+
+</h:body>
+</html>
